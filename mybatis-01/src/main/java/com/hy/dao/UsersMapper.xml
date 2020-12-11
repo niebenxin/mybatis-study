@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:绑定对应的Mapper接口-->
+<mapper namespace="com.hy.dao.UsersMapper">
+    <select id="queryAll" resultMap="usersmap">
+        select * from users
+    </select>
+    <resultMap id="usersmap" type="com.hy.pojo.UsersBean">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="password" property="password"></result>
+    </resultMap>
+    <select id="queryById" resultType="com.hy.pojo.UsersBean" parameterType="int">
+        select * from users where id = #{id}
+    </select>
+
+    <insert id="add" parameterType="com.hy.pojo.UsersBean">
+        insert into users (id,name,password) values (#{id},#{name},#{password})
+    </insert>
+
+    <update id="update" parameterType="com.hy.pojo.UsersBean">
+        update users set name=#{name} , password=#{password} where id = #{id}
+    </update>
+    
+    <insert id="add2" parameterType="map">
+        insert into users (id,name,password) values
+        <foreach collection="map" item="com.hy.pojo.UsersBean" index="index" separator=",">
+            (#{item.idd},#{item.namee},#{item.passwordd})
+        </foreach>
+    </insert>
+
+    <select id="querylike" parameterType="java.lang.String" resultType="com.hy.pojo.UsersBean">
+        select * from users where name like "%"#{name}"%"
+    </select>
+</mapper>
